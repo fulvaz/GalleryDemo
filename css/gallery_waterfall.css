@@ -1,0 +1,31 @@
+body {
+  margin: 0; }
+
+.showShelter {
+  display: flex; }
+
+.wf-container .wf-column {
+  float: left;
+  overflow: hidden; }
+  .wf-container .wf-column .wf-box {
+    margin-bottom: 8px; }
+    .wf-container .wf-column .wf-box img {
+      width: 100%; }
+
+.shelter {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .shelter .content {
+    padding: 10px;
+    background-color: #EEE;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+
+.hidden {
+  display: none; }
