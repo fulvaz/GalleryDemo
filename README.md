@@ -4,13 +4,17 @@ Gallery demo
 
 How
 ---
-`npm install`
-`gulp`
+```
+npm install
+gulp
+```
 
 then, visit
+```
 localhost:3000/barrel.html
 localhost:3000/jigsaw.html
 localhost:3000/waterfall.html
+```
 
 feature
 -------
