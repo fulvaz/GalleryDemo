@@ -68,9 +68,11 @@ var imgReady = (function () {
                 // 如果图片已经在其他地方加载可使用面积检测
                 newWidth * newHeight > 1024
             ) {
+                
                 ready.call(img);
                 onready.end = true;
             };
+
         };
         onready();
 

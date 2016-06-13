@@ -15,7 +15,7 @@
 
         min = cols[0];
         for(var i=0; i<cols.length; i++) {
-            if (min.offsetHeight > cols[i].offsetHeight) {
+            if (min.clientHeight > cols[i].clientHeight) {
                 min = cols[i];
             }
         }
@@ -31,12 +31,12 @@
             resizeTimeoutId;
 
         this.minWidth = opt.minWidth || 200;
-        this.containerSelector = opt.containerSelector || 'wf-container';
+        this.containerClassName = opt.containerClassName || 'wf-container';
         this.columnSelector = opt.columnSelector || 'wf-column';
         this.boxSelector = opt.boxSelector || "wf-box";
         this.marginBetweenCol = opt.marginBetweenCol || 16;
 
-        this.container = document.querySelector("." + this.containerSelector);
+        this.container = document.querySelector("." + this.containerClassName);
 
         this.items = [];
         this.lastAddItems = [];
@@ -126,9 +126,8 @@
             that = this;
 
         for(var i=0; i<items.length; i++) {
-            imgReady(items[i], function() {
                 // prepare for img
-                img = this;
+                img = new Image();
                 img.addEventListener("click", function(e) {
                     futil.clearInnerDOM(shelterContent);
                     shelterContent.appendChild(e.target.cloneNode());
@@ -138,12 +137,11 @@
                 // prepare box
                 box = document.createElement('div');
                 box.classList.add(that.boxSelector);
-                box.style.height = img.height * that.columnList[0].offsetWidth / img.width + "px";
+                img.src = items[i];
                 box.appendChild(img);
 
                 minCol = getMinHeightCol.call(that);
                 minCol.appendChild(box);
-            });
 
             // put items into column which has the smallest height
             // browser will optimize this automatically
@@ -159,5 +157,5 @@
 
 
 
-    window['WaterFall'] = WaterFall;
+    window['Gallery_WaterFall'] = WaterFall;
 })(window);

@@ -1,7 +1,22 @@
-It is a startup project to use gulp + browser-sync, and complie sass files automatically if any watched files edited.
+What
+----
+Gallery demo
 
-To get start, you might need to change the value of  'host' attribute of gulpfile.js
+How
+---
+`npm install`
+`gulp`
 
-PS: for my own convenient, i also pushed the node_module to the project, plz feel free to delete the node_module dir : )
+then, visit
+localhost:3000/barrel.html
+localhost:3000/jigsaw.html
+localhost:3000/waterfall.html
 
-have fun
+feature
+-------
+loading images on scroll
+
+To be Continue
+--------------
+Refactored image layouter lib will be released soon
+

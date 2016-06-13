@@ -34,9 +34,9 @@
             opt = opt || {};
         request.onreadystatechange = function() {
             if(request.readyState == 4 && request.status == 200) {
-               opt["callback"](request);
+               opt.callback(request);
             }
-        }
+        };
         request.open(opt.requestMethod, opt.url);
         request.send(opt.content);
     }
@@ -68,12 +68,103 @@
         xhr.send();
     }
 
+    function imgWHDetector() {
+        var intervalId = null,
+            tasks = [];
+
+        function runTasks() {
+            var i;
+
+            // stop interval if add tasks have finish
+            if (tasks.length === 0) {
+                stopInterval();
+                return
+            }
+
+            for(i=0; i<tasks.length; i++) {
+                tasks[i].end ? tasks.splice(i--, 1) : tasks[i]();
+            }
+        }
+
+        function stopInterval() {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+
+        return function(url, ready, error) {
+            var image = new Image(),
+                imgWidth,
+                imgHeight,
+                imgNewWidth,
+                imgNewHeight,
+                detectWH;
+
+
+            // methods
+
+            function setStopDetect() {
+                detectWH.end = true;
+            }
+
+            // 配置当前的detectWH
+            image.src = url;
+            imgWidth = image.width;
+            imgHeight = image.height;
+
+            image.onerror = function() {
+                image.onload = image.onerror = null;
+                error && error(image);
+                setStopDetect();
+            };
+
+
+            // if cached
+            if(image.complete) {
+                ready(image);
+                return
+            }
+
+            // TODO handle event bind by other code
+            image.onload = function() {
+                image.onload = image.onerror = null;
+                ready && ready(image);
+                setStopDetect();
+            };
+
+            detectWH = function() {
+                imgNewWidth = image.width;
+                imgNewHeight = image.height;
+
+                if(imgWidth === imgNewWidth && imgHeight === imgNewHeight && imgNewWidth * imgNewHeight > 0) {
+                    // prevent from run "ready" function when other event occur
+                    image.onload = image.onerror = null;
+                    ready(image);
+                    setStopDetect();
+                }
+
+                imgWidth = imgNewWidth;
+                imgHeight = imgNewHeight;
+            };
+
+
+            detectWH();
+            tasks.push(detectWH);
+
+            if(intervalId === null) {
+                intervalId = setInterval(runTasks, 100);
+            }
+
+        }
+
+    }
+
 
     fq.ajax = ajax;
     fq.toArray = toArray;
     fq.toLowerDimension = toLowerDimension;
     fq.clearInnerDOM = clearInnerDOM;
     fq.loadImgFromJson = loadImgFromJSON;
+    fq.imgWHDetect = imgWHDetector();
 
     window['futil'] = fq;
 

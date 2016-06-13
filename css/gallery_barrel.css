@@ -1,0 +1,7 @@
+.ba-container .ba-row {
+  margin-bottom: 1em; }
+  .ba-container .ba-row .ba-img {
+    height: 100%; }
+
+.ba-container > .ba-img {
+  display: none; }
